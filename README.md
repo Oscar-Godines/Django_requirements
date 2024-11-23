@@ -1,6 +1,6 @@
 # Django_requirements
 
-1. **Crear el ambiente, de preferencia con python 3.8:**
+1. **Crear el ambiente, de preferencia con python 3.8 o más reciente:**
     ```bash
     python -m venv django_venv
 
