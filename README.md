@@ -4,7 +4,7 @@
     ```bash
     python -m venv django_venv
 
-    django\Scripts\activate
+    django_venv\Scripts\activate
     ```
 
 2. **Instalar django en su ambiente virtual**
