@@ -31,37 +31,56 @@
 
 1. **Crear el archivo`task/templates/tasks/task_list.html` y añade el siguiente código:**
     ```
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do List</title>
+
     </head>
     <body>
-    <h1>To-Do List</h1>
-    <a href="{% url 'add_task' %}">Add Task</a>
-    <ul>
-        {% for task in tasks %}
-            <li>
-                {{ task.title }} - 
-                {% if task.completed %}
-                    Completed
-                {% else %}
-                    Not Completed
-                {% endif %}
-                <a href="{% url 'edit_task' task.pk %}">Edit</a>
-            </li>
-        {% endfor %}
-    </ul>
+        <div class="card shadow">
+        <div class="card-header bg-success text-white">
+            <h1 class="h3">To-Do List</h1>
+        </div>
+        <div class="card-body">
+            <a href="{% url 'add_task' %}" class="btn btn-primary mb-3">+ Add Task</a>
+            <ul class="list-group">
+                {% for task in tasks %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div>
+                            <strong>{{ task.title }}</strong>
+                            <p>{{ task.description }}</p>
+                            <small>Priority: {{ task.priority }}</small><br>
+                            <small>Due: {{ task.due_date|date:"M d, Y" }}</small>
+                        </div>
+                        <div>
+                            {% if task.completed %}
+                                <span class="badge bg-success">Completed</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% endif %}
+                            <a href="{% url 'edit_task' task.pk %}" class="btn btn-sm btn-warning mt-2">Edit</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+    </form>
     </body>
     </html>
+
 
     ```
 
 2. **Crear el archivo`task/templates/tasks/task_form.html` y añade el siguiente código:**
     ```
-      <!DOCTYPE html>
+    <!DOCTYPE html>
     <html lang="en">
     <head>
     <meta charset="UTF-8">
@@ -69,21 +88,30 @@
     <title>Task Form</title>
     </head>
     <body>
-    <h1>{% if form.instance.pk %}Edit Task{% else %}Add Task{% endif %}</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
-    <a href="{% url 'task_list' %}">Back to List</a>
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="card shadow" style="width: 30rem;">
+            <div class="card-header bg-primary text-white">
+                <h2 class="h5">{% if form.instance.pk %}Edit Task{% else %}Add Task{% endif %}</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary w-100">Save</button>
+                </form>
+                <a href="{% url 'task_list' %}" class="btn btn-link text-secondary mt-3">Back to List</a>
+            </div>
+        </div>
+    </div>
     </body>
     </html>
+
 
     ```
 
 3. **Crear el archivo`task/templates/registration/login.html` y añade el siguiente código:**
     ```
-   <!DOCTYPE html>
+      <!DOCTYPE html>
     <html lang="en">
     <head>
     <meta charset="UTF-8">
@@ -93,9 +121,9 @@
     <body>
     <h1>Login</h1>
     <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
     </form>
     </body>
     </html>
